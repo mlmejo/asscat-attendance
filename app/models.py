@@ -1,5 +1,5 @@
 from flask_login import UserMixin
-from sqlalchemy import Column
+from sqlalchemy import Column, ForeignKey
 from sqlalchemy.types import Boolean, Integer, String, Text
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -11,6 +11,10 @@ class User(db.Model, UserMixin):
     email = Column(String(255), unique=True, nullable=False)
     password = Column(Text, nullable=False)
     is_admin = Column(Boolean, default=False)
+    is_instructor = Column(Boolean, default=False)
+
+    # Relationships
+    instructor = db.relationship("Instructor", backref="user", lazy=True)
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
@@ -31,3 +35,10 @@ class Subject(db.Model):
     lec_hours = Column(Integer, nullable=False)
     lab_hours = Column(Integer, nullable=False)
     units = Column(Integer, nullable=False)
+
+
+class Instructor(db.Model):
+    id = Column(Integer, primary_key=True)
+    first_name = Column(String(64), nullable=False)
+    last_name = Column(String(64), nullable=False)
+    user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
