@@ -14,7 +14,13 @@ class User(db.Model, UserMixin):
     is_instructor = Column(Boolean, default=False)
 
     # Relationships
-    instructor = db.relationship("Instructor", backref="user", lazy=True)
+    instructor = db.relationship(
+        "Instructor",
+        backref="user",
+        uselist=False,
+        lazy=True,
+        cascade="all, delete",
+    )
 
     def check_password(self, password):
         return check_password_hash(self.password, password)

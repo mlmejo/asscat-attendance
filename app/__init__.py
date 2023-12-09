@@ -30,9 +30,18 @@ def create_app():
     bootstrap.init_app(app)
 
     from . import accounts, pages
+    from .accounts import instructors
     from .main import subjects
 
-    for _app in [accounts, pages, subjects]:
+    # Project applications
+    APPLICATIONS = [
+        accounts,
+        pages,
+        instructors,
+        subjects,
+    ]
+
+    for _app in APPLICATIONS:
         app.register_blueprint(_app.blueprint)
 
     from . import commands

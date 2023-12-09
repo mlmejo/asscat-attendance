@@ -14,7 +14,9 @@ class CreateSubjectForm(FlaskForm):
     submit = SubmitField("Submit")
 
     def validate_descriptive_title(self, descriptive_title):
-        subject = Subject.query.filter_by(descriptive_title=descriptive_title.data).first()
+        subject = Subject.query.filter_by(
+            descriptive_title=descriptive_title.data
+        ).first()
         if subject:
             raise ValidationError("The descriptive title has already been taken.")
 
@@ -33,7 +35,9 @@ class UpdateSubjectForm(FlaskForm):
     submit = SubmitField("Update")
 
     def validate_descriptive_title(self, descriptive_title):
-        subject = Subject.query.filter_by(descriptive_title=descriptive_title.data).first()
+        subject = Subject.query.filter_by(
+            descriptive_title=descriptive_title.data
+        ).first()
         if subject:
             raise ValidationError("The descriptive title has already been taken.")
 
