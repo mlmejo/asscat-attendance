@@ -1,0 +1,10 @@
+html,
+body {
+    height: 100%;
+}
+
+body {
+    background-image: url('/static/img/asscat_campus.webp');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
