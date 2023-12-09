@@ -37,7 +37,7 @@ def create():
 
 @blueprint.route("/<int:subject_id>/edit", methods=["GET", "POST"])
 def edit(subject_id):
-    subject = Subject.query.get_or_404(subject_id)
+    subject = Subject.query.get_or_404(int(subject_id))
     form = UpdateSubjectForm(obj=subject)
 
     if form.validate_on_submit():
