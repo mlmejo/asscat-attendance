@@ -30,7 +30,7 @@ def create_app():
     bootstrap.init_app(app)
 
     from . import accounts, pages
-    from .accounts import instructors
+    from .accounts import instructors, students
     from .main import courses, subjects
 
     # Project applications
@@ -38,6 +38,7 @@ def create_app():
         accounts,
         pages,
         instructors,
+        students,
         courses,
         subjects,
     ]

@@ -40,16 +40,14 @@ def create():
 @blueprint.route("/<int:instructor_id>/edit", methods=["GET", "POST"])
 def edit(instructor_id):
     instructor = Instructor.query.get_or_404(int(instructor_id))
-    form = InstructorUpdateForm(obj=instructor)
-
-    form.first_name.data = instructor.first_name
-    form.last_name.data = instructor.last_name
-    form.email.data = instructor.user.email
+    form = InstructorUpdateForm()
 
     if form.validate_on_submit():
-        # Custom validation to ignore owner
+        # Custom validation to ignore owner email
+        # Check if the queried user matches the instructor account.
+        # Then check if the provided email is different from the user's email.
         user = User.query.filter_by(email=form.email.data).first()
-        if user and user.email != form.email.data:
+        if user.id != instructor.user_id:
             form.email.errors = "Email address is already in use."
         else:
             instructor.user.email = form.email.data
@@ -58,6 +56,10 @@ def edit(instructor_id):
             db.session.commit()
             flash("Instructor information updated successfully.", "info")
             return redirect(url_for("instructors.index"))
+
+    form.first_name.data = instructor.first_name
+    form.last_name.data = instructor.last_name
+    form.email.data = instructor.user.email
 
     return render_template("instructors/edit.html", form=form)
 

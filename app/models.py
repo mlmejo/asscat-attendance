@@ -1,9 +1,10 @@
 from flask_login import UserMixin
 from sqlalchemy import Column, ForeignKey
-from sqlalchemy.types import Boolean, Integer, String, Text
+from sqlalchemy.types import Boolean, Enum, Integer, String, Text
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from app import db, login_manager
+from app.enums import YearLevelChoices
 
 
 class User(db.Model, UserMixin):
@@ -12,10 +13,18 @@ class User(db.Model, UserMixin):
     password = Column(Text, nullable=False)
     is_admin = Column(Boolean, default=False)
     is_instructor = Column(Boolean, default=False)
+    is_student = Column(Boolean, default=False)
 
     # Relationships
     instructor = db.relationship(
         "Instructor",
+        backref="user",
+        uselist=False,
+        lazy=True,
+        cascade="all, delete",
+    )
+    student = db.relationship(
+        "Student",
         backref="user",
         uselist=False,
         lazy=True,
@@ -47,7 +56,12 @@ class Instructor(db.Model):
     id = Column(Integer, primary_key=True)
     first_name = Column(String(64), nullable=False)
     last_name = Column(String(64), nullable=False)
-    user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
+    user_id = Column(
+        Integer,
+        ForeignKey("user.id"),
+        unique=True,
+        nullable=False,
+    )
 
 
 class Course(db.Model):
@@ -55,3 +69,23 @@ class Course(db.Model):
     name = Column(String(64), unique=True, nullable=False)
 
     # Relationships
+    students = db.relationship(
+        "Student",
+        backref="course",
+        lazy=True,
+        cascade="all, delete",
+    )
+
+
+class Student(db.Model):
+    id = Column(Integer, primary_key=True)
+    first_name = Column(String(64), nullable=False)
+    last_name = Column(String(64), nullable=False)
+    year_level = Column(Enum(YearLevelChoices))
+    user_id = Column(
+        Integer,
+        ForeignKey("user.id"),
+        unique=True,
+        nullable=False,
+    )
+    course_id = Column(Integer, ForeignKey("course.id"), nullable=False)

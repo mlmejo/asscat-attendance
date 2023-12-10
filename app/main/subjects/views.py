@@ -41,16 +41,24 @@ def edit(subject_id):
     form = UpdateSubjectForm(obj=subject)
 
     if form.validate_on_submit():
-        subject.descriptive_title = form.descriptive_title.data
-        subject.course_number = form.course_number.data
-        subject.lec_hours = form.lec_hours.data
-        subject.lab_hours = form.lab_hours.data
-        subject.units = form.units.data
+        # Check for ownership
+        _subject = Subject.query.filter_by(descriptive_title=form.descriptive_title.data).first()
+        _subject2 = Subject.query.filter_by(course_number=form.course_number.data).first()
+        if _subject.id != subject.id:
+            form.descriptive_title.errors = "The descriptive title has already been taken."
+        elif _subject2.id != subject.id:
+            form.course_number.errors = "The course number has already been taken."
+        else:
+            subject.descriptive_title = form.descriptive_title.data
+            subject.course_number = form.course_number.data
+            subject.lec_hours = form.lec_hours.data
+            subject.lab_hours = form.lab_hours.data
+            subject.units = form.units.data
 
-        db.session.commit()
+            db.session.commit()
 
-        flash("Subject updated successfully.", "info")
-        return redirect(url_for("subjects.index"))
+            flash("Subject updated successfully.", "info")
+            return redirect(url_for("subjects.index"))
 
     return render_template("subjects/edit.html", form=form)
 
