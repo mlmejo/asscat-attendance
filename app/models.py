@@ -89,3 +89,16 @@ class Student(db.Model):
         nullable=False,
     )
     course_id = Column(Integer, ForeignKey("course.id"), nullable=False)
+
+
+class InstructorLoad(db.Model):
+    id = Column(Integer, primary_key=True)
+    school_year = Column(String(64), nullable=False)
+    start_time = Column(String(64), nullable=False)
+    day = Column(String(64), nullable=False)
+    end_time = Column(String(64), nullable=False)
+    instructor_id = Column(Integer, ForeignKey("instructor.id"), nullable=False)
+    subject_id = Column(Integer, ForeignKey("subject.id"), nullable=False)
+
+    instructor = db.relationship("Instructor", back_populates="load", lazy=True)
+    subject = db.relationship("Subject", lazy=True)
