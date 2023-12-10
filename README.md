@@ -6,7 +6,7 @@
 
 ### Pre-setup
 
-Install the required system libraries to build [face_recognition]("https://github.com/ageitgey/face_recognition")
+Install the required system libraries to build [face_recognition](https://github.com/ageitgey/face_recognition)
 
 ```
 sudo apt-get install -y --fix-missing \
