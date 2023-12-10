@@ -31,13 +31,14 @@ def create_app():
 
     from . import accounts, pages
     from .accounts import instructors
-    from .main import subjects
+    from .main import courses, subjects
 
     # Project applications
     APPLICATIONS = [
         accounts,
         pages,
         instructors,
+        courses,
         subjects,
     ]
 

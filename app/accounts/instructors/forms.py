@@ -15,7 +15,7 @@ class InstructorCreationForm(FlaskForm):
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if user:
-            raise ValidationError("Email address is already in use.")
+            raise ValidationError("The email address has already been taken.")
 
 
 class InstructorUpdateForm(FlaskForm):

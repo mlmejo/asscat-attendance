@@ -48,3 +48,10 @@ class Instructor(db.Model):
     first_name = Column(String(64), nullable=False)
     last_name = Column(String(64), nullable=False)
     user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
+
+
+class Course(db.Model):
+    id = Column(Integer, primary_key=True)
+    name = Column(String(64), unique=True, nullable=False)
+
+    # Relationships
