@@ -47,7 +47,7 @@ def edit(instructor_id):
         # Check if the queried user matches the instructor account.
         # Then check if the provided email is different from the user's email.
         user = User.query.filter_by(email=form.email.data).first()
-        if user.id != instructor.user_id:
+        if user and user.id != instructor.user_id:
             form.email.errors = "Email address is already in use."
         else:
             instructor.user.email = form.email.data

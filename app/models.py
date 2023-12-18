@@ -100,5 +100,5 @@ class InstructorLoad(db.Model):
     instructor_id = Column(Integer, ForeignKey("instructor.id"), nullable=False)
     subject_id = Column(Integer, ForeignKey("subject.id"), nullable=False)
 
-    instructor = db.relationship("Instructor", back_populates="load", lazy=True)
+    instructor = db.relationship("Instructor", lazy=True)
     subject = db.relationship("Subject", lazy=True)

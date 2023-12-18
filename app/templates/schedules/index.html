@@ -1,0 +1,72 @@
+{% extends "layouts/admin.html" %}
+
+{% block content %}
+    <h1 class="h2">Schedules</h1>
+    <div class="border-bottom"></div>
+
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <input type="text" name="day" id="day" class="form-control" placeholder="Day" required />
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <input type="text" name="school_year" id="school_year" class="form-control" placeholder="School Year" />
+        </div>
+
+        <div class="col-md-6">
+            <select name="semester" id="semester" class="form-select">
+                <option value="">Select semester</option>
+                <option value="1st semester">1st semester</option>
+                <option value="2nd semester">2nd semester</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <select name="course_id" id="course_id" class="form-select">
+                <option value="">Select course</option>
+                {% for course in courses %}
+                    <option value="{{ course.id }}">{{ course.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-md-6">
+            <select name="year_level" id="year_level" class="form-select">
+                <option value="">Select year level</option>
+                <option value="1st year">1st year</option>
+                <option value="2nd year">2nd year</option>
+                <option value="3rd year">3rd year</option>
+                <option value="4th year">4th year</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <h2 class="h4 mb-0">Course offered</h2>
+    </div>
+
+    <div class="table-responsive">
+        <table id="jquery-table" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Descriptive title</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for subject in subjects %}
+                    <tr>
+                        <td class="align-middle">{{ subject.descriptive_title }}</td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-primary">Add subject</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
