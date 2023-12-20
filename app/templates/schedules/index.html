@@ -1,12 +1,14 @@
 {% extends "layouts/admin.html" %}
 
 {% block content %}
-    <h1 class="h2">Schedules</h1>
+    <h1 class="h2 mb-0">Schedules</h1>
+    <h2 class="h6 text-muted">Instructor: {{ instructor.first_name }} {{ instructor.last_name }}</h2>
     <div class="border-bottom"></div>
 
     <div class="row mt-3">
         <div class="col-md-6">
             <input type="text" name="day" id="day" class="form-control" placeholder="Day" required />
+            <div class="form-text">e.g. MON,TUE,WED,THU,FRI,SAT</div>
         </div>
     </div>
 
@@ -62,11 +64,31 @@
                     <tr>
                         <td class="align-middle">{{ subject.descriptive_title }}</td>
                         <td>
-                            <button type="button" class="btn btn-sm btn-primary">Add subject</button>
+                            <button type="button" class="add-subject btn btn-sm btn-primary" data-id="{{ subject.id }}">
+                                Add subject
+                            </button>
                         </td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(function () {
+            $(".add-subject").on("click", function () {
+                var form = new FormData();
+
+                form.append("day", $("#day").val());
+                form.append("course_id", $("#course_id").val());
+                form.append("year_level", $("#year_level").val());
+                form.append("school_year", $("#school_year").val());
+                form.append("semester", $("#semester").val());
+                form.append("day", $("#day").val());
+                form.append("subject_id", $(this).data("id"));
+            });
+        });
+    </script>
 {% endblock %}

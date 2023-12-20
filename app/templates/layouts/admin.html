@@ -102,7 +102,7 @@
                                     Account Management
                                 </h6>
                                 <a
-                                    class="nav-link {{ 'active' if 'instructors' in request.endpoint else '' }}"
+                                    class="nav-link {{ 'active' if 'instructors' in request.path else '' }}"
                                     href="{{ url_for('instructors.index') }}"
                                 >
                                     <svg
@@ -165,5 +165,6 @@
         <script>
             new DataTable("#jquery-table");
         </script>
+        {% block scripts %}{% endblock %}
     </body>
 </html>
